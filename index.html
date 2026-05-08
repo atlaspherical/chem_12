@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 12 Chemistry — WACE ATAR 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #232834;
+    --accent-red: #e85d3a;
+    --accent-teal: #2dd4bf;
+    --accent-amber: #f59e0b;
+    --accent-violet: #a78bfa;
+    --accent-sky: #38bdf8;
+    --text: #eef0f4;
+    --text-muted: #7a8296;
+    --text-dim: #4a5168;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 30%, rgba(232,93,58,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(45,212,191,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.1s forwards;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.2s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent-red);
+  }
+  .hero-sub {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.35s forwards;
+  }
+  .hero-nav {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.5s forwards;
+  }
+  .hero-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    transition: all 0.2s;
+    background: var(--surface);
+  }
+  .hero-nav a:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+  .hero-nav a .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* SEMESTER SECTIONS */
+  .semester {
+    padding: 5rem 4rem;
+    position: relative;
+  }
+  .semester + .semester {
+    border-top: 1px solid var(--border);
+  }
+  .semester-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .semester-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .s1 .semester-tag { background: rgba(232,93,58,0.12); color: var(--accent-red); border: 1px solid rgba(232,93,58,0.25); }
+  .s2 .semester-tag { background: rgba(45,212,191,0.10); color: var(--accent-teal); border: 1px solid rgba(45,212,191,0.2); }
+  .semester-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    letter-spacing: -0.01em;
+  }
+  .semester-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-left: auto;
+    max-width: 300px;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* TOPICS GRID */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  /* TOPIC CARD */
+  .topic-card {
+    background: var(--surface);
+    padding: 2rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .topic-card:hover { background: var(--surface2); }
+  .topic-card.open { background: var(--surface2); }
+
+  .topic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+  .topic-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .topic-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .topic-timing {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+    margin-top: 0.2rem;
+  }
+  .topic-chevron {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+  .topic-card.open .topic-chevron { transform: rotate(45deg); }
+
+  .topic-summary {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .topic-summary .pill {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+  }
+
+  /* OBJECTIVES PANEL */
+  .objectives-panel {
+    display: none;
+    padding: 2rem 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: 1.5rem;
+    animation: expandIn 0.3s ease;
+  }
+  .topic-card.open .objectives-panel { display: block; }
+
+  .obj-section {
+    margin-bottom: 2rem;
+  }
+  .obj-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .obj-item {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(35,40,52,0.5);
+    align-items: start;
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .obj-item:last-child { border-bottom: none; }
+  .obj-bullet {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    padding-top: 0.3rem;
+  }
+  .obj-item.sis { color: var(--accent-violet); }
+  .obj-item.sis .obj-bullet { color: var(--accent-violet); }
+  .obj-item.she { color: var(--accent-amber); }
+  .obj-item.she .obj-bullet { color: var(--accent-amber); }
+  .obj-item strong { color: var(--accent-teal); font-weight: 500; }
+
+  /* ASSESSMENT BADGE */
+  .assessment-box {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-red);
+  }
+  .assessment-box .a-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 0.5rem;
+  }
+  .assessment-box .a-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* KEY CONCEPTS */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .concept-item {
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes expandIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 700px) {
+    .hero, .semester { padding: 3rem 1.5rem; }
+    .semester-header { flex-wrap: wrap; }
+    .semester-desc { margin-left: 0; text-align: left; }
+    .topics-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">WACE ATAR · Year 12 Chemistry · 2026</div>
+  <h1>Master<br><em>Chemistry</em><br>Year 12</h1>
+  <p class="hero-sub">Every learning objective, explained clearly at ATAR level — organised by semester and topic. Click any topic to expand all objectives.</p>
+  <nav class="hero-nav">
+    <a href="#semester1"><span class="dot" style="background:var(--accent-red)"></span>Semester 1</a>
+    <a href="#semester2"><span class="dot" style="background:var(--accent-teal)"></span>Semester 2</a>
+    <a href="#topic1"><span class="dot" style="background:var(--accent-amber)"></span>Redox</a>
+    <a href="#topic2"><span class="dot" style="background:var(--accent-violet)"></span>Equilibrium</a>
+    <a href="#topic3"><span class="dot" style="background:var(--accent-sky)"></span>Acids & Bases</a>
+    <a href="#topic4"><span class="dot" style="background:var(--accent-teal)"></span>Organic</a>
+    <a href="#topic5"><span class="dot" style="background:var(--accent-amber)"></span>Synthesis</a>
+  </nav>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SEMESTER 1
+═══════════════════════════════════════════════════ -->
+<section class="semester s1" id="semester1">
+  <div class="semester-header">
+    <span class="semester-tag">Semester 1</span>
+    <h2 class="semester-title">Redox, Equilibrium<br>&amp; Acids</h2>
+    <div class="semester-desc">T4 2025 (wks 5–8) · T1 2026 (wks 1–3) · T2 2026 (wks 1–7)<br>Exam: Term 2 Weeks 5–7 · Worth 20%</div>
+  </div>
+
+  <div class="topics-grid">
+
+    <!-- ── TOPIC 1: REDOX ── -->
+    <div class="topic-card" id="topic1" onclick="toggle(this)">
+      <div class="topic-header">
+        <div>
+          <div class="topic-num">TOPIC 01</div>
+          <div class="topic-name">Redox &amp;<br>Electrochemistry</div>
+          <div class="topic-timing">T4 wks 5–8 · T1 wks 1–3</div>
+        </div>
+        <div class="topic-chevron">+</div>
+      </div>
+      <div class="topic-summary">
+        <span class="pill">Oxidation states</span>
+        <span class="pill">Half equations</span>
+        <span class="pill">Galvanic cells</span>
+        <span class="pill">Electrolysis</span>
+        <span class="pill">Corrosion</span>
+        <span class="pill">Fuel cells</span>
+      </div>
+
+      <div class="objectives-panel">
+
+        <div class="obj-section">
+          <div class="obj-section-title">Foundations of Redox</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Oxidation = loss of electrons; Reduction = gain of electrons.</strong> Remember OIL RIG — Oxidation Is Loss, Reduction Is Gain. In any redox reaction both processes occur simultaneously.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Oxidation numbers</strong> are assigned charges that track electron movement. Use the rules (O is usually −2, H is +1 in compounds, sum = charge on species) to identify what's oxidised (oxidation number increases) and reduced (decreases).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Half equations in acidic conditions:</strong> Balance atoms first (add H₂O for O, H⁺ for H), then balance charge with electrons. E.g., MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Balanced redox equations</strong> are formed by combining half equations so electrons cancel. Multiply each half equation to equalise electron count, then add.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Displacement reactions:</strong> A more reactive metal displaces a less reactive metal ion from solution (e.g., Zn + Cu²⁺ → Zn²⁺ + Cu). Halogens displace less reactive halide ions (Cl₂ displaces Br⁻ and I⁻).</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Galvanic Cells &amp; Standard Reduction Potentials</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Galvanic (voltaic) cells</strong> convert chemical potential energy into electrical energy via spontaneous redox reactions.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Key features:</strong> Two half-cells connected by an external circuit (electron flow) and a salt bridge (ion flow to maintain charge balance). The <strong>anode</strong> is where oxidation occurs (negative in a galvanic cell); the <strong>cathode</strong> is where reduction occurs (positive). Remember: An Ox, Red Cat.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Salt bridge</strong> contains an inert electrolyte (e.g., KNO₃). Anions migrate towards the anode half-cell; cations migrate towards the cathode half-cell — this prevents charge build-up that would stop the cell.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Standard Hydrogen Electrode (SHE)</strong> is the universal reference: H⁺(1 mol L⁻¹) | H₂(g, 100 kPa) at 298 K, assigned E° = 0.00 V. All standard reduction potentials are measured relative to it.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Standard conditions:</strong> 1 mol L⁻¹ solution, 298 K, 100 kPa. Reduction potentials (E°) in the Standard Reduction Potential (SRP) table are all written as reduction half-reactions.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Cell voltage:</strong> E°cell = E°cathode − E°anode. A positive E°cell means the reaction is <strong>spontaneous</strong>. A negative value means non-spontaneous (energy input required).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Oxidising and reducing agents:</strong> Species with more positive E° are stronger oxidising agents (more easily reduced). Species with more negative E° are stronger reducing agents (more easily oxidised). The SRP table lets you predict feasibility.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Applications of Galvanic Cells</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Dry corrosion</strong> of iron: Fe is oxidised by O₂ at the surface; water is not required. Forms iron oxides directly.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Wet (electrochemical) corrosion</strong> of iron: requires both water and O₂; iron acts as the anode (oxidised), and oxygen is reduced at the cathode region. Accelerated by salt, acid, or contact with less active metals.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Corrosion prevention:</strong> barrier methods (paint, grease, galvanising), alloying, <strong>cathodic protection</strong> (connect Fe to a more active metal such as Mg or Zn — the iron becomes the cathode and doesn't oxidise), and <strong>sacrificial anodes</strong> (a more reactive metal is deliberately oxidised instead of the iron).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Primary batteries</strong> (e.g., Leclanché/dry cell): not rechargeable. Zn anode, MnO₂/NH₄Cl electrolyte, carbon cathode.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Secondary batteries</strong> (e.g., lead-acid accumulator): rechargeable. During discharge Pb is oxidised (anode) and PbO₂ is reduced (cathode). Charging reverses this using external electrical energy.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Hydrogen fuel cell:</strong> H₂ is oxidised at the anode (H₂ → 2H⁺ + 2e⁻), O₂ is reduced at the cathode (O₂ + 4H⁺ + 4e⁻ → 2H₂O). Continuous supply of fuel means continuous electricity — unlike a battery it doesn't go flat.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Electrolytic Cells</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Electrolysis</strong> uses external electrical energy to drive a <em>non-spontaneous</em> redox reaction. E°cell is negative for electrolytic cells.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Key features:</strong> The anode is connected to the positive terminal (oxidation occurs), cathode to the negative terminal (reduction occurs). Ion flow in the electrolyte; electron flow in the external circuit.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Molten salts vs. aqueous solutions:</strong> Molten NaCl gives Na(l) and Cl₂(g). Aqueous NaCl (brine) gives H₂(g) at cathode (H₂O reduced preferentially over Na⁺) and Cl₂(g) at anode — different products due to competing discharge reactions.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Galvanic vs. electrolytic cells:</strong> Galvanic — spontaneous, converts chemical → electrical; anode is negative. Electrolytic — non-spontaneous, converts electrical → chemical; anode is positive.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Industrial applications:</strong> Silver electroplating (Ag⁺ reduced at cathode onto object), copper refining (impure copper anode dissolves, pure copper deposits at cathode).</span>
+          </div>
+        </div>
+
+        <div class="obj-item sis">
+          <span class="obj-bullet">★</span>
+          <span><strong>SIS — Practical:</strong> Conduct electrochemical cell experiments safely, collect valid data, organise and process results to compare reactivity of substances.</span>
+        </div>
+
+        <div class="assessment-box">
+          <div class="a-label">CAP 1 · Term 1 Week 4</div>
+          <div class="a-text">Redox Topic Test (4% of year) + Investigation — Redox Context (5% of year)</div>
+        </div>
+
+      </div>
+    </div><!-- end topic 1 -->
+
+    <!-- ── TOPIC 2: EQUILIBRIUM ── -->
+    <div class="topic-card" id="topic2" onclick="toggle(this)">
+      <div class="topic-header">
+        <div>
+          <div class="topic-num">TOPIC 02</div>
+          <div class="topic-name">Chemical<br>Equilibrium</div>
+          <div class="topic-timing">T2 wks 4–7</div>
+        </div>
+        <div class="topic-chevron">+</div>
+      </div>
+      <div class="topic-summary">
+        <span class="pill">Collision theory</span>
+        <span class="pill">Le Châtelier's principle</span>
+        <span class="pill">Keq expressions</span>
+        <span class="pill">Haber process</span>
+        <span class="pill">CO₂ & climate</span>
+      </div>
+
+      <div class="objectives-panel">
+
+        <div class="obj-section">
+          <div class="obj-section-title">Reaction Rates &amp; Collision Theory</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Collision theory:</strong> Reactions occur when particles collide with sufficient energy (≥ activation energy, Ea) and the correct orientation. Increasing collision frequency or energy increases rate.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Factors affecting rate:</strong> Increasing concentration or pressure → more collisions per second → faster rate. Increasing temperature → more particles have energy ≥ Ea (Maxwell-Boltzmann distribution shifts) → faster rate. Catalysts lower Ea → faster rate without being consumed. Greater surface area → more exposed particles → more collisions.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Dynamic Equilibrium</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Open vs. closed systems:</strong> Open systems exchange both matter and energy with surroundings. Closed systems exchange energy only — required for equilibrium to be reached.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Dynamic equilibrium</strong> is reached in a closed system when the rate of the forward reaction equals the rate of the reverse reaction. Macroscopic properties (concentration, colour, pressure) remain constant but reactions still occur at the molecular level.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Reversibility and activation energy:</strong> Both forward and reverse reactions have an activation energy. The exothermic direction has a lower Ea; the relative position of equilibrium depends on the difference in energy between products and reactants.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Le Châtelier's Principle &amp; Shifting Equilibrium</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Le Châtelier's Principle:</strong> When a system at equilibrium is stressed, it will shift to partially oppose that stress and re-establish equilibrium.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Concentration change:</strong> Adding reactant → forward shift (more product formed). Removing product → forward shift. Adding product → reverse shift.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Temperature change:</strong> Increasing temperature favours the endothermic direction (absorbs excess heat). Decreasing temperature favours the exothermic direction. Temperature changes alter the value of K.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Pressure/volume change (gases):</strong> Increasing pressure (decreasing volume) shifts equilibrium towards the side with fewer moles of gas to reduce pressure. Equal moles of gas on both sides: no shift.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Catalysts:</strong> Speed up both forward and reverse reactions equally. Equilibrium is reached faster but the position of equilibrium (and K) is unchanged.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Equilibrium Constants</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Equilibrium law expression:</strong> For aA + bB ⇌ cC + dD: K = [C]ᶜ[D]ᵈ / [A]ᵃ[B]ᵇ. Pure solids and liquids are omitted (activity = 1). This is a <em>homogeneous</em> expression when all species are in the same phase; <em>heterogeneous</em> when phases differ.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Interpreting K:</strong> K >> 1 → mostly products at equilibrium. K << 1 → mostly reactants. K ≈ 1 → roughly equal amounts. K is constant at constant temperature; only temperature changes K.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Concentration-time graphs:</strong> Show reactant concentrations decreasing and product concentrations increasing until equilibrium is reached (lines flatten). Disturbances cause sudden changes followed by re-levelling.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Industrial Application: Haber Process</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Haber Process:</strong> N₂(g) + 3H₂(g) ⇌ 2NH₃(g)  ΔH = −92 kJ mol⁻¹. Forward reaction is exothermic and produces fewer moles of gas.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Compromise conditions:</strong> Low temperature favours equilibrium yield (more NH₃) but slows rate → compromise ~450°C. High pressure favours yield and rate → ~200 atm used. Iron catalyst maintains acceptable rate at moderate temperature. Continuous removal of NH₃ shifts equilibrium forward.</span>
+          </div>
+        </div>
+
+        <div class="obj-item she">
+          <span class="obj-bullet">★</span>
+          <span><strong>SHE — CO₂ and climate:</strong> Evaluate how rising CO₂ emissions affect global temperatures (greenhouse effect), ocean pH (ocean acidification via CO₂ + H₂O ⇌ H₂CO₃), and marine life (shell dissolution, bleaching).</span>
+        </div>
+        <div class="obj-item sis" style="margin-top:0.5rem;">
+          <span class="obj-bullet">★</span>
+          <span><strong>SIS — Practical:</strong> Conduct equilibrium experiments safely; collect valid data on effects of changes to equilibrium systems.</span>
+        </div>
+
+        <div class="assessment-box">
+          <div class="a-label">CAP 2 · Term 1 Week 7</div>
+          <div class="a-text">Extended Response — Redox Applications (5%) + Lab Validation — Equilibria (5%)</div>
+        </div>
+
+      </div>
+    </div><!-- end topic 2 -->
+
+    <!-- ── TOPIC 3: ACIDS & BASES ── -->
+    <div class="topic-card" id="topic3" onclick="toggle(this)">
+      <div class="topic-header">
+        <div>
+          <div class="topic-num">TOPIC 03</div>
+          <div class="topic-name">Acids &amp; Bases</div>
+          <div class="topic-timing">T1 wks 8–9 · T2 wks 1–3 · T2 wk 8</div>
+        </div>
+        <div class="topic-chevron">+</div>
+      </div>
+      <div class="topic-summary">
+        <span class="pill">Brønsted-Lowry</span>
+        <span class="pill">pH calculations</span>
+        <span class="pill">Buffers</span>
+        <span class="pill">Kw &amp; Ka</span>
+        <span class="pill">Indicators</span>
+        <span class="pill">Titrations</span>
+      </div>
+
+      <div class="objectives-panel">
+
+        <div class="obj-section">
+          <div class="obj-section-title">Definitions &amp; Strength</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Brønsted-Lowry model:</strong> An acid is a proton (H⁺) donor; a base is a proton acceptor. This applies in aqueous and non-aqueous situations.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Strong acids</strong> (HCl, H₂SO₄, HNO₃) fully ionise in water. <strong>Weak acids</strong> (CH₃COOH, H₃PO₄, organic acids) partially ionise — an equilibrium exists. Same for bases: strong (NaOH, KOH, Ca(OH)₂) vs. weak (NH₃, Na₂CO₃).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Strong ≠ concentrated.</strong> Strength refers to degree of ionisation; concentration refers to amount of solute per litre. A dilute strong acid can still be 100% ionised; a concentrated weak acid may still be only 1% ionised.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Ka (acidity constant)</strong> = [H⁺][A⁻] / [HA]. A larger Ka means a stronger weak acid. pKa = −log Ka; lower pKa = stronger acid. For equimolar solutions, higher Ka → lower pH.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Conjugate acid-base pairs</strong> differ by one H⁺. E.g., CH₃COOH / CH₃COO⁻. The stronger the acid, the weaker its conjugate base.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Monoprotic vs. polyprotic acids:</strong> Monoprotic donate one H⁺ (HCl). Polyprotic donate more than one (H₂SO₄ donates two, H₃PO₄ donates three) — each donation has a separate Ka.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Water, pH and Calculations</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Self-ionisation of water:</strong> 2H₂O ⇌ H₃O⁺ + OH⁻. Kw = [H⁺][OH⁻] = 1.0 × 10⁻¹⁴ at 25°C. Water is a very weak electrolyte.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>pH scale:</strong> pH = −log₁₀[H⁺]. Acidic: pH < 7; neutral: pH = 7; basic: pH > 7 (at 25°C). Inverse logarithmic — each unit change = 10× change in [H⁺].</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Calculations:</strong> [H⁺] → pH: pH = −log[H⁺]. pH → [H⁺]: [H⁺] = 10⁻ᵖᴴ. Find [OH⁻] from Kw: [OH⁻] = Kw / [H⁺]. Neutral pH changes with temperature because Kw is temperature-dependent — at 37°C, neutral pH ≈ 6.8.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Mixing strong acids and bases:</strong> Calculate moles of H⁺ and OH⁻, find excess, calculate new concentration in new total volume, then find pH.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Salt Hydrolysis &amp; Buffers</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Salt hydrolysis:</strong> Salts of weak acids/strong bases → basic solution (e.g., CH₃COONa). Salts of strong acids/weak bases → acidic solution (e.g., NH₄Cl). Salts of strong acid/strong base → neutral (e.g., NaCl).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Equivalence point ≠ always pH 7</strong> because of hydrolysis of the salt formed.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Buffer solutions</strong> resist pH change upon addition of small amounts of acid or base. Made from a weak acid and its conjugate base (or weak base and conjugate acid) in comparable concentrations.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>How buffers work:</strong> Add H⁺ → reacts with the base component (A⁻ + H⁺ → HA). Add OH⁻ → reacts with the acid component (HA + OH⁻ → A⁻ + H₂O). pH changes only slightly because the equilibrium rebalances.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Buffering capacity</strong> depends on concentration of the buffer components (higher concentration = greater capacity) and the ratio of acid to conjugate base (best when approximately equal).</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Indicators &amp; Titration Curves</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Acid-base indicators</strong> are weak acids (HIn) where the protonated and deprotonated forms have different colours. Colour change occurs over a pH range of approximately pKₐ(In) ± 1.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Equivalence point vs. endpoint:</strong> Equivalence point = moles of acid exactly equal moles of base. Endpoint = indicator changes colour. Choose an indicator whose endpoint falls within the steep region of the pH curve near equivalence point.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>pH curves:</strong> Strong acid/strong base: vertical portion (buffer region) near pH 7. Weak acid/strong base: equivalence point > 7 (use phenolphthalein, range 8.2–10). Strong acid/weak base: equivalence point < 7 (use methyl orange, range 3.1–4.4).</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Volumetric Analysis</div>
+
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Principles:</strong> Known concentration of one solution (standard) is used to find unknown concentration of another via neutralisation.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Primary standard:</strong> High purity, stable (doesn't absorb CO₂ or moisture), high molar mass (minimises weighing error), readily soluble. Example: anhydrous Na₂CO₃ or oxalic acid.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Titration calculation:</strong> n(acid) = c × V; use mole ratio from equation; c(base) = n(base) / V(base). Always convert volumes to litres.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Back titration:</strong> Used when the analyte doesn't react directly with the titrant, or is insoluble. Add excess reagent, then titrate the unreacted excess. E.g., finding CaCO₃ content by adding excess HCl and back-titrating unused HCl with NaOH.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Experimental errors:</strong> Systematic errors (consistent bias — e.g., dirty burette, incorrect indicator) affect accuracy. Random errors (unpredictable — e.g., parallax in reading meniscus) affect precision. Percentage error = (absolute error / true value) × 100%.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Minimising errors:</strong> Rinse all glassware with the solution to be used, use a white tile, read meniscus at eye level, take multiple concordant readings (within 0.1 mL), use a primary standard to prepare/standardise solutions.</span>
+          </div>
+        </div>
+
+        <div class="obj-item sis">
+          <span class="obj-bullet">★</span>
+          <span><strong>SIS — Practical:</strong> Establish properties of acids and bases experimentally. Demonstrate volumetric competence; collect accurate and precise titration data; write scientific reports using appropriate language and format.</span>
+        </div>
+
+        <div class="assessment-box">
+          <div class="a-label">CAP 3 · Term 2 Week 3</div>
+          <div class="a-text">Equilibrium &amp; Acids/Bases Topic Test (8%) · Then: Acid-Base Titration in-class assessment T2 Wk 9 (5%)</div>
+        </div>
+
+      </div>
+    </div><!-- end topic 3 -->
+
+  </div><!-- end s1 topics grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SEMESTER 2
+═══════════════════════════════════════════════════ -->
+<section class="semester s2" id="semester2">
+  <div class="semester-header">
+    <span class="semester-tag">Semester 2</span>
+    <h2 class="semester-title">Organic Chemistry<br>&amp; Synthesis</h2>
+    <div class="semester-desc">T2 wks 9–11 · T3 wks 1–7<br>Exam: Term 3 Weeks 9–10 · Worth 30%</div>
+  </div>
+
+  <div class="topics-grid">
+
+    <!-- ── TOPIC 4: ORGANIC ── -->
+    <div class="topic-card" id="topic4" onclick="toggle(this)">
+      <div class="topic-header">
+        <div>
+          <div class="topic-num">TOPIC 04</div>
+          <div class="topic-name">Organic<br>Chemistry</div>
+          <div class="topic-timing">T2 wks 9–11 · T3 wks 1–3</div>
+        </div>
+        <div class="topic-chevron">+</div>
+      </div>
+      <div class="topic-summary">
+        <span class="pill">Functional groups</span>
+        <span class="pill">Reactions</span>
+        <span class="pill">Polymers</span>
+        <span class="pill">Amino acids</span>
+        <span class="pill">Proteins</span>
+        <span class="pill">Intermolecular forces</span>
+      </div>
+
+      <div class="objectives-panel">
+
+        <div class="obj-section">
+          <div class="obj-section-title">Revision: Hydrocarbons &amp; Isomers</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>IUPAC naming revision</strong> for alkanes, cycloalkanes, alkenes, cycloalkenes, alkynes, alkyl groups, haloalkanes (up to C8). Know straight-chain and branched structures.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Isomers</strong> have the same molecular formula but different structures. Chain isomers differ in the carbon skeleton; position isomers differ in functional group placement; geometric (cis-trans) isomers differ in arrangement around a C=C double bond.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Aromatic compounds</strong> contain a benzene ring (C₆H₆) — a planar, cyclic structure with delocalised π electrons. Named as derivatives of benzene.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Functional Groups &amp; Nomenclature</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Functional groups</strong> are atoms or bonds responsible for characteristic reactivity. Identify: alkenes (C=C), alcohols (–OH), aldehydes (–CHO), ketones (C=O internal), carboxylic acids (–COOH), esters (–COO–), amines (–NH₂), amides (–CONH–).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>IUPAC naming rules (up to C8, simple branching):</strong> Identify longest chain containing the functional group as parent chain. Number to give functional group lowest locant. Use suffixes: -ol, -al, -one, -oic acid, -oate, -amine, -amide, -ene.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Reactions of Functional Groups</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Alkenes — addition reactions:</strong> C=C reacts with Br₂/bromine water (decolorises from orange-brown to colourless → confirms C=C). Also react with H₂ (hydrogenation), HX (hydrohalogenation), H₂O (hydration → alcohol).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Alcohols — combustion:</strong> Complete combustion gives CO₂ + H₂O. Incomplete gives CO or C.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Oxidation of alcohols:</strong> Acidified MnO₄⁻ (purple → colourless) or Cr₂O₇²⁻ (orange → green) are oxidising agents. Primary alcohol → aldehyde (mild/controlled) → carboxylic acid (excess oxidant). Secondary alcohol → ketone. Tertiary alcohol → no reaction with these oxidising agents (no H on C bearing –OH).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Carboxylic acid reactions:</strong> React with metals, carbonates, and bases (acid-base reactions). React with alcohols in the presence of acid catalyst (H₂SO₄) to form esters — condensation reaction releasing H₂O (esterification).</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Intermolecular Forces &amp; Physical Properties</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Dispersion forces:</strong> Present in all molecules; strength increases with molecular size/surface area. Only forces in non-polar molecules (alkanes, alkenes).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Dipole-dipole interactions:</strong> In polar molecules (e.g., haloalkanes, aldehydes, ketones). Stronger than dispersion for similar molar mass.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Hydrogen bonding:</strong> Between H bonded to F, O, or N, and a lone pair on F, O, or N of another molecule. Alcohols, carboxylic acids, amines, amides can hydrogen bond. Much higher boiling point than expected from molar mass alone.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Boiling point trends:</strong> Greater intermolecular forces → higher boiling point. Solubility in water: "like dissolves like" — polar/H-bonding molecules dissolve well in water; non-polar molecules prefer non-polar (organic) solvents.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Empirical &amp; Molecular Formulae</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Empirical formula</strong> = simplest whole-number ratio of atoms. From combustion analysis: convert masses of CO₂ and H₂O to moles, find moles C and H, calculate mole ratio.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Molecular formula</strong> = actual number of each atom. Divide molar mass by empirical formula mass to find the multiplier.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span>Combine formula data with reaction results (e.g., does it decolourise bromine water? does it react with Na?) to suggest a possible structure.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Polymers</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Addition polymerisation:</strong> Monomers with C=C join without losing atoms. Polyethene from ethene; polytetrafluoroethene (PTFE/Teflon) from tetrafluoroethene. The double bond opens to form the polymer chain.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Condensation polymerisation:</strong> Monomers with two functional groups react, releasing a small molecule (usually H₂O). Polyesters: diol + dicarboxylic acid → ester linkages (e.g., PET/polyethylene terephthalate). Polyamides: diamine + dicarboxylic acid → amide linkages (e.g., nylon).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Predict monomer from polymer and vice versa:</strong> For addition, identify repeating unit and re-insert a C=C. For condensation, split at ester or amide links, adding H and OH (or H₂O back).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Polymer properties and uses:</strong> Crosslinking → harder, less flexible. Longer chains → stronger. Intermolecular forces between chains → determines softening point. E.g., PTFE is non-stick (non-polar, very low friction); nylon is strong and flexible (H-bonding between chains); PET for drink bottles (semi-crystalline, strong).</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Amino Acids &amp; Proteins</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>α-Amino acids structure:</strong> Central carbon bonded to –NH₂, –COOH, –H, and an R group (side chain). The R group determines properties of each amino acid.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Zwitterions:</strong> At physiological pH, the –COOH donates its proton to –NH₂, giving –COO⁻ and –NH₃⁺ on the same molecule (net zero charge but internally charged). Solution pH can affect which form predominates.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Peptide (amide) bond formation:</strong> The –COOH of one amino acid reacts with the –NH₂ of another, releasing H₂O (condensation). The –CO–NH– linkage is a peptide bond. Two amino acids → dipeptide; chain → polypeptide → protein.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Primary structure:</strong> The sequence of amino acids in the polypeptide chain (encoded by DNA).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Secondary structure:</strong> Local folding patterns — α-helix (spiral coil held by H-bonds between C=O and N–H of backbone, 4 residues apart) and β-sheet (extended chains side-by-side, H-bonds perpendicular). Determined by backbone H-bonding.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Tertiary structure:</strong> Overall 3D fold of the whole polypeptide chain, determined by interactions between R groups: disulfide bonds (covalent, between Cys), ionic bonds, hydrogen bonds, dipole-dipole interactions, and dispersion forces.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Protein Data Bank (PDB):</strong> A global repository of 3D structural data for proteins and nucleic acids, freely accessible by scientists worldwide.</span>
+          </div>
+        </div>
+
+        <div class="obj-item sis">
+          <span class="obj-bullet">★</span>
+          <span><strong>SIS — Communication:</strong> Write scientific reports for specific audiences using appropriate language, nomenclature, genres and modes.</span>
+        </div>
+
+        <div class="assessment-box">
+          <div class="a-label">CAP 4 · Term 3 Week 4</div>
+          <div class="a-text">SIS Investigation — Organic Context (5%) + Extended Response: Synthesis (5%)</div>
+        </div>
+
+      </div>
+    </div><!-- end topic 4 -->
+
+    <!-- ── TOPIC 5: SYNTHESIS ── -->
+    <div class="topic-card" id="topic5" onclick="toggle(this)">
+      <div class="topic-header">
+        <div>
+          <div class="topic-num">TOPIC 05</div>
+          <div class="topic-name">Chemical<br>Synthesis</div>
+          <div class="topic-timing">T3 wks 4–7</div>
+        </div>
+        <div class="topic-chevron">+</div>
+      </div>
+      <div class="topic-summary">
+        <span class="pill">Stoichiometry</span>
+        <span class="pill">% yield</span>
+        <span class="pill">Enzymes</span>
+        <span class="pill">Ethanol production</span>
+        <span class="pill">Soaps &amp; detergents</span>
+        <span class="pill">Biodiesel</span>
+      </div>
+
+      <div class="objectives-panel">
+
+        <div class="obj-section">
+          <div class="obj-section-title">Reaction Design &amp; Stoichiometry</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Multi-step synthesis:</strong> Complex molecules often require several reactions in sequence. Each step must be chosen to give the right product with acceptable yield and rate. Consider functional group transformations at each step.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Optimising rate vs. yield:</strong> Higher temperature → faster rate but may lower equilibrium yield (if exothermic). Higher pressure favours rate and yield (if fewer moles gas in products). Catalysts increase rate without affecting equilibrium position. Excess/removal of reagents can shift equilibrium.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Stoichiometry calculations:</strong> Use the balanced equation mole ratio to convert moles of one substance to moles of another. <strong>Limiting reagent:</strong> the reactant that is completely consumed first; determines theoretical yield. Find by dividing moles of each reactant by its stoichiometric coefficient — the smallest value identifies the limiting reagent.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Percentage yield</strong> = (actual yield / theoretical yield) × 100%. Values < 100% due to side reactions, incomplete reactions, losses during transfer/purification.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Overall yield of multi-step synthesis:</strong> Multiply the fractional yields of each step together. E.g., 80% × 70% × 90% = 50.4% overall. This shows why minimising steps is important.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Industrial Processes</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Haber Process (NH₃):</strong> Compromise conditions: ~450°C (rate-yield balance), ~200 atm (favours products — fewer moles gas), Fe catalyst, continuous removal of NH₃.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Contact Process (H₂SO₄):</strong> Key step SO₂ + ½O₂ ⇌ SO₃. Catalyst: V₂O₅, ~450°C, ~1–2 atm. SO₃ then absorbed into H₂SO₄ to form oleum, then diluted — not directly into water (too exothermic and forms acid mist).</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Biodiesel production:</strong> Triglycerides (fats/oils) + methanol → fatty acid methyl esters (FAME = biodiesel) + glycerol. Base-catalysed (NaOH) is faster and cheaper but requires dry, low-acid feedstock. Lipase-catalysed is slower, more expensive, but milder conditions, can use higher free fatty acid feedstock, enzyme is recoverable. Evaluate sustainability: renewable resource, lower net CO₂, but land-use concerns.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Enzymes as Biological Catalysts</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Enzymes</strong> are proteins that act as biological catalysts — they lower activation energy and are highly specific (lock-and-key or induced-fit model). Benefits: operate at mild temperature and pH, biodegradable, highly selective. Drawbacks: sensitive to temperature/pH, expensive to produce, may be inhibited.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Optimal conditions:</strong> Most enzymes have a narrow optimal temperature (~37°C for human enzymes) and pH range. Too high temperature → denaturation (tertiary structure disrupted, active site changes shape). Wrong pH → disrupts ionic/H-bonds holding 3D structure.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Ethanol Production</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Fermentation:</strong> Glucose (from starch/sugars) → ethanol + CO₂, catalysed by yeast enzymes (zymase). Conditions: anaerobic, ~35°C, pH ~4–5. Renewable feedstock; low energy input. Disadvantages: slow, dilute product (~15% ethanol max), batch process, seasonal feedstock.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Hydration of ethene:</strong> C₂H₄ + H₂O → C₂H₅OH. Catalyst: H₃PO₄ on silica at ~300°C, 70 atm. Feedstock: crude oil-derived ethene (non-renewable). Advantages: faster, continuous, purer product. Disadvantage: non-renewable, higher energy, equilibrium yield ~5% per pass.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Ethyl Ethanoate (Ethyl Acetate)</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Synthetic route:</strong> Ethanol (from fermentation or ethene hydration) + ethanoic acid (from oxidation of ethanol via acetaldehyde, or from Monsanto process) → ethyl ethanoate + H₂O (acid-catalysed esterification, H₂SO₄). Used as a solvent in nail polish removers and adhesives.</span>
+          </div>
+        </div>
+
+        <div class="obj-section">
+          <div class="obj-section-title">Soaps &amp; Detergents</div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Soap production (saponification):</strong> Triglyceride + NaOH (or KOH) → glycerol + 3 fatty acid carboxylate salts (soaps). Base hydrolysis of ester linkages.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Soap structure:</strong> Long non-polar hydrocarbon tail (hydrophobic) + carboxylate (–COO⁻) head (hydrophilic). The tail dissolves in grease; the head stays in water. Soap molecules aggregate into micelles around oil/grease droplets, enabling removal.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Soap in hard water:</strong> Ca²⁺ and Mg²⁺ ions react with soap carboxylate to form insoluble scum: 2RCOONa + Ca²⁺ → (RCOO)₂Ca↓ + 2Na⁺. Soap is wasted; scum left on surfaces.</span>
+          </div>
+          <div class="obj-item">
+            <span class="obj-bullet">▸</span>
+            <span><strong>Synthetic anionic detergents</strong> (from dodecylbenzene): have a sulfonate (–SO₃⁻) head instead of carboxylate. Calcium and magnesium sulfonate salts are soluble → no scum in hard water. Detergents are preferable in hard water areas.</span>
+          </div>
+        </div>
+
+        <div class="obj-item she">
+          <span class="obj-bullet">★</span>
+          <span><strong>SHE — Sustainability evaluation:</strong> Compare ethanol and biodiesel production methods for resource use, economics, environmental impact, and sustainability. Consider life-cycle analysis, land use, food security, and carbon neutrality.</span>
+        </div>
+        <div class="obj-item sis" style="margin-top:0.5rem;">
+          <span class="obj-bullet">★</span>
+          <span><strong>SIS — Full investigation skills:</strong> Identify and refine questions, propose hypotheses, design procedures, conduct risk assessments, collect valid and reliable data safely and methodically.</span>
+        </div>
+
+        <div class="assessment-box">
+          <div class="a-label">CAP 5 · Term 3 Week 7</div>
+          <div class="a-text">Organic &amp; Synthesis Topic Test — Worth 8% of year</div>
+        </div>
+
+      </div>
+    </div><!-- end topic 5 -->
+
+  </div><!-- end s2 topics grid -->
+</section>
+
+<!-- LEGEND -->
+<section style="padding: 3rem 4rem; border-top: 1px solid var(--border);">
+  <div style="display:flex; flex-wrap:wrap; gap:2rem; align-items:center;">
+    <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim);">Legend</div>
+    <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--accent-violet);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.7rem;">★ SIS</span>
+      <span>Science Inquiry Skills objective</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--accent-amber);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.7rem;">★ SHE</span>
+      <span>Science, Health &amp; Environment objective</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--accent-teal);">
+      <span style="font-family:'DM Mono',monospace; font-size:0.7rem; background:rgba(45,212,191,0.1); padding:0.1rem 0.4rem; border-radius:2px;">bold teal</span>
+      <span>Key concept or definition</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>YEAR 12 CHEMISTRY · WACE ATAR · 2026</span>
+  <span>5 TOPICS · 2 SEMESTERS · ALL OBJECTIVES EXPLAINED</span>
+</footer>
+
+<script>
+  function toggle(card) {
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
